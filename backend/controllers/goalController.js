@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler');
 // @access Private
 const getGoals = asyncHandler(async (req, res) => {
   res.status(200).json({
-    message: 'Goals api',
+    message: 'Get Goals api',
   });
 });
 // @desc Set a goal
