@@ -31,7 +31,7 @@ const Header = () => {
           </Button>
         </Link>
 
-        <Link as={ReachLink} to="/">
+        <Link as={ReachLink} to="/register">
           <Button
             leftIcon={<FaUser></FaUser>}
             variant="link"
