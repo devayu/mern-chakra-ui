@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
 import {
   VStack,
@@ -11,7 +11,12 @@ import {
   InputGroup,
   InputRightElement,
   Input,
+  useToast,
+  Spinner,
 } from "@chakra-ui/react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { registerUser, reset } from "../store/slices/authSlice";
 const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -19,9 +24,31 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
+  const toast = useToast();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
   const [isPasswordSame, setIsPasswordSame] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const { name, email, password, confirmPassword } = formData;
+  useEffect(() => {
+    if (isError) {
+      toast({
+        title: "Error",
+        description: message,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+    if (isSuccess || user) {
+      navigate("/");
+    }
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch, toast]);
   const onChangeHandler = (e) => {
     setFormData((prevState) => ({
       ...prevState,
@@ -36,9 +63,19 @@ const Register = () => {
     if (password !== confirmPassword) {
       setIsPasswordSame(!isPasswordSame);
     } else {
+      const userData = {
+        name,
+        email,
+        password,
+      };
+      dispatch(registerUser(userData));
       setIsPasswordSame(true);
     }
   };
+
+  if (isLoading) {
+    return <Spinner size="xl"></Spinner>;
+  }
   return (
     <VStack w="full">
       <HStack>

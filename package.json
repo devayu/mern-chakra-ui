@@ -2,6 +2,7 @@
   "name": "mern-chakra",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://localhost:8081",
   "dependencies": {
     "@chakra-ui/react": "^1.8.3",
     "@emotion/react": "^11",
@@ -13,6 +14,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "axios": "^0.26.0",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "dotenv": "^16.0.0",
@@ -32,11 +34,12 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=3000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "nodemon backend/index.js"
+    "server": "nodemon backend/index.js",
+    "dev": "concurrently \"yarn start\" \"yarn server\""
   },
   "eslintConfig": {
     "extends": [
@@ -55,5 +58,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0"
   }
 }
